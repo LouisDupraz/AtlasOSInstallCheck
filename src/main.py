@@ -27,6 +27,8 @@ def processActions(yaml_content):
                 checkValueExistsAndDelete(action['registryValue']['path'], action['registryValue']['value'], skip_prompts)
                 continue
             try:
+                if action['registryValue'].get('value') is None:
+                    action['registryValue']['value'] = ''
                 checkAndResetValue(action['registryValue']['path'], action['registryValue']['value'],
                                    action['registryValue']['data'], action['registryValue']['type'], skip_prompts)
             except KeyError as e:
