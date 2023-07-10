@@ -2,16 +2,17 @@ import winreg as reg
 
 # Note : the following values and keys are ignored because they are recreated by the system at each reboot
 values_exeptions= {
-    "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Taskband": ["FavoritesResolve", "Favorites"],
-    "HKLM\SYSTEM\CurrentControlSet\Control\WMI\Autologger\ReadyBoot" : "Start",
-    "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\SessionData": "AllowLockScreen",
+    r"HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Taskband": {"FavoritesResolve", "Favorites"},
+    r"HKLM\SYSTEM\CurrentControlSet\Control\WMI\Autologger\ReadyBoot" : "Start",
+    r"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\SessionData": "AllowLockScreen",
+    r"HKCU\Control Panel\Quick Actions\Control Center\Unpinned": {'Microsoft.QuickAction.AllSettings', 'Microsoft.QuickAction.BlueLightReduction', 'Microsoft.QuickAction.AvailableNetworks', 'Microsoft.QuickAction.Location', 'Microsoft.QuickAction.Connect', 'Microsoft.QuickAction.QuietHours', 'Microsoft.QuickAction.ScreenClipping', 'Microsoft.QuickAction.Vpn', 'Microsoft.QuickAction.Project'}
 }
 
 keys_exceptions = {
-    "HKCU\SOFTWARE\Microsoft\Edge",
-    "HKCU\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\BagMRU",
-    "HKCU\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags",
-    "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options"
+    r"HKCU\SOFTWARE\Microsoft\Edge",
+    r"HKCU\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\BagMRU",
+    r"HKCU\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags",
+    r"HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options"
 }
 
 

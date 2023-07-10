@@ -5,7 +5,7 @@ import psutil
 
 # Note : the following files and folders are ignored because they are recreated by the system at each reboot
 files_exeptions = {
-    "C:\\Windows\\SoftwareDistribution"
+    r"C:\Windows\SoftwareDistribution"
 }
 
 
