@@ -1,5 +1,4 @@
 pyyaml
 pywin32
-py7zr
 brotlicffi
 psutil
