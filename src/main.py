@@ -8,7 +8,7 @@ from task_scheduler import checkTaskExistsAndDelete, checkTasksFolderExistsAndDe
 from subprocess import run, DEVNULL
 from py7zr import SevenZipFile
 from py7zr.exceptions import UnsupportedCompressionMethodError
-import pyzipper
+from zipfile import ZipFile, is_zipfile
 
 
 checks_state = {"registry": False, "files": False, "services": False, "schdtasks": False}
@@ -85,19 +85,19 @@ def parse_args():
 
 
 def extract_apbx(path):
-    run(rf'copy {path} .\playbook.zip', check=True, shell=True, stdout=DEVNULL)
-    """with SevenZipFile('playbook.7z', mode='r', password='malte') as file:
-        run(r'mkdir .\playbook', check=True, shell=True, stdout=DEVNULL)
-        try:
-            file.extractall(path='./playbook')
-        # I don't know why, but it throws this error even though it works
-        except UnsupportedCompressionMethodError:
-            pass
-    """
-    with pyzipper.ZipFile('playbook.zip') as file:
-        file.pwd = 'malte'
-        run(r'mkdir .\playbook', check=True, shell=True, stdout=DEVNULL)
-        file.extractall(path='./playbook')
+    run(rf'copy {path} .\playbook.7z', check=True, shell=True, stdout=DEVNULL)
+    if not is_zipfile('playbook.7z'):
+        with SevenZipFile('playbook.7z', mode='r', password='malte') as file:
+            run(r'mkdir .\playbook', check=True, shell=True, stdout=DEVNULL)
+            try:
+                file.extractall(path='./playbook')
+            # I don't know why, but it throws this error even though it works
+            except UnsupportedCompressionMethodError:
+                pass
+    else:
+        with ZipFile(path, mode='r') as file:
+            run(r'mkdir .\playbook', check=True, shell=True, stdout=DEVNULL)
+            file.extractall(path='.\playbook', pwd=b'malte')
 
 
 def main():
