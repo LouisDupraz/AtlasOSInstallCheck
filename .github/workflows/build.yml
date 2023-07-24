@@ -32,7 +32,7 @@ jobs:
         id: package
         shell: bash
         run: |
-          pyinstaller --onefile --noconsole src/main.py
+          pyinstaller --onefile src/main.py
           mv dist/*.exe CheckInstall.exe
           rm -rf build dist main.spec
 

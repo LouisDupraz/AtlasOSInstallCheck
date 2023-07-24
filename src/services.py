@@ -1,16 +1,10 @@
 import win32serviceutil
 import win32service
-from sys import stdin
 
 
 services_deletion_exceptions = set()
 
 services_reset_exceptions = set()
-
-
-def input(prompt=''):
-    print(prompt, end='', flush=True)
-    return stdin.readline().strip()
 
 
 def get_all_services():
