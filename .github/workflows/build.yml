@@ -11,34 +11,32 @@ on:
 
 jobs:
   package_to_exe:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install Wine
-        run: |
-          sudo dpkg --add-architecture i386 
-          wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add -
-          sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main' 
-          sudo apt update
-          sudo apt install --install-recommends winehq-stable
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-      - name: Install Windows Python & PyInstaller
+      - name: Install requirements
+        id: requirements
         run: |
-          wget https://www.python.org/ftp/python/3.7.4/python-3.7.4.exe
-          wine python-3.7.4.exe /quiet InstallAllUsers=1 PrependPath=1
-          wine python -m pip install pyinstaller
+          pip install -r requirements.txt
+          pip install pyinstaller
 
       - name: Package to exe
+        id: package
         run: |
-          wine python -m pip install -r requirements.txt
-          wine pyinstaller --onefile $(ls src/*.py)
-          printf "\n\n\n$(ls -lR .)\n\n\n"
+          files=$(ls src/*.py)
+          pyinstaller --onefile --noconsole $files
           mv dist/main.exe CheckInstall.exe
           rm -rf build dist main.spec
 
       - name: Package executables
+        shell: bash
         run: |
           mkdir -p archive
           cp run.cmd archive/
@@ -47,8 +45,9 @@ jobs:
           cp RunAsTI.cmd archive/
           cp LICENSE archive/
           cd archive/
-          zip CheckInstall.zip *
+          7z a -tzip CheckInstall.zip *
           mv CheckInstall.zip ../
+          cd ../
 
       - name: Upload .zip package artifact
         uses: actions/upload-artifact@v3
