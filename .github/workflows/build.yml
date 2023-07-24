@@ -33,6 +33,7 @@ jobs:
         run: |
           files=$(ls src/*.py)
           pyinstaller --onefile --noconsole $files
+          ls -lR
           mv dist/main.exe CheckInstall.exe
           rm -rf build dist main.spec
 
