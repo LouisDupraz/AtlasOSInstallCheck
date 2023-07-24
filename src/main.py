@@ -1,4 +1,4 @@
-from sys import argv
+from sys import argv, exit
 from os import listdir
 from registry import checkKeyExistsAndDelete, checkValueExistsAndDelete, checkAndResetValue
 from files import checkFileExistsAndDelete
