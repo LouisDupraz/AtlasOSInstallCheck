@@ -26,7 +26,7 @@ jobs:
         run: |
           files=$(ls src/*.py)
           pyinstaller --onefile --noconsole $files
-          echo -n "\n\n\n$(ls -lR dist/)\n\n\n"
+          printf "\n\n\n$(ls -lR .)\n\n\n"
           mv dist/main.exe CheckInstall.exe
           rm -rf build dist main.spec
 
