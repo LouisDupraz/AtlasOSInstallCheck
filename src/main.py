@@ -1,4 +1,4 @@
-from sys import argv
+from sys import argv, exit
 from os import listdir
 from registry import checkKeyExistsAndDelete, checkValueExistsAndDelete, checkAndResetValue
 from files import checkFileExistsAndDelete
@@ -9,10 +9,11 @@ from subprocess import run, DEVNULL
 from py7zr import SevenZipFile
 from py7zr.exceptions import UnsupportedCompressionMethodError
 from zipfile import ZipFile, is_zipfile
+from pathlib import Path
 
 
 checks_state = {"registry": False, "files": False, "services": False, "schdtasks": False}
-help_msg = """Usage:run.cmd <path to Atlas Playbook (.apbx or extracted directory)> [-r] [-f] [-s] [-t] [-y]
+help_msg = """Usage: run.cmd <path to Atlas Playbook (.apbx or extracted directory)> [-r] [-f] [-s] [-t] [-y]
 To get the Atlas Playbook Directory, download the Atlas Playbook https://atlasos.net/ and extract it (password: malte)"""
 skip_prompts = False
 
@@ -54,7 +55,11 @@ def parse_args():
     args = argv[1:]
     if len(args) < 1 or ('-h' in args or '--help' in args):
         print(help_msg)
-        exit(1)
+        second_try_path = input("Please enter the path to the playbook (you can copy it in the Shift-Right Click menu) :\n> ").strip('"')
+        if second_try_path == "":
+            print("No path entered. Exiting...")
+            exit(1)
+        args.append(second_try_path)
     patharg = None
     for arg in args:
         if arg.startswith("-"):
@@ -77,7 +82,11 @@ def parse_args():
             patharg = arg
     if patharg is None:
         print(help_msg)
-        exit(1)
+        second_try_path = input("Please enter the path to the playbook (you can copy it in the Shift-Right Click menu) :\n> ").strip('"')
+        if second_try_path == "":
+            print("No path entered. Exiting...")
+            exit(1)
+        patharg = second_try_path
     if True not in checks_state.values():
         for k in checks_state.keys():
             checks_state[k] = True
@@ -85,7 +94,11 @@ def parse_args():
 
 
 def extract_apbx(path):
+    if Path(r'.\playbook.7z').exists():
+        run(rf'del .\playbook.7z', check=True, shell=True, stdout=DEVNULL)
     run(rf'copy {path} .\playbook.7z', check=True, shell=True, stdout=DEVNULL)
+    if Path(r'.\playbook').exists():
+        run(rf'rmdir .\playbook\ /S /Q', check=True, shell=True, stdout=DEVNULL)
     if not is_zipfile('playbook.7z'):
         with SevenZipFile('playbook.7z', mode='r', password='malte') as file:
             run(r'mkdir .\playbook', check=True, shell=True, stdout=DEVNULL)
@@ -111,10 +124,10 @@ def main():
     try:
         config_dir_content = listdir(config_path)
     except FileNotFoundError:
-        print("Could not find the configuration directory. Please make sure you are pointing to the correct directory")
+        print("Could not find the configuration directory. Please make sure you are pointing to the playbook")
         exit(1)
     if "custom.yml" not in config_dir_content:
-        print("Could not find custom.yml in the configuration directory. Please make sure you are pointing to the correct directory")
+        print("Could not find custom.yml in the configuration directory. Please make sure you are pointing to the playbook")
         exit(1)
     config_data = readYamlFile(config_path + "custom.yml")
     yml_files_list = config_data['features']

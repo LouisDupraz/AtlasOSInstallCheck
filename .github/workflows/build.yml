@@ -1,0 +1,58 @@
+name: Package Script To .EXE
+
+on:
+  push:
+    branches-ignore:
+      - 'ga-ignore-*'
+  pull_request:
+    branches-ignore:
+      - 'ga-ignore-*'
+
+
+jobs:
+  package_to_exe:
+    name: Package To .EXE
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install requirements
+        id: requirements
+        run: |
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Package to exe
+        id: package
+        shell: bash
+        run: |
+          pyinstaller --onefile src/main.py
+          mv dist/*.exe CheckInstall.exe
+          rm -rf build dist main.spec
+
+      - name: Package executables
+        shell: bash
+        run: |
+          mkdir -p archive
+          cp run.cmd archive/
+          cp CheckInstall.exe archive/
+          cp README.md archive/
+          cp RunAsTI.cmd archive/
+          cp LICENSE archive/
+#          cd archive/
+#          7z a -tzip CheckInstall.zip *
+#          mv CheckInstall.zip ../
+#          cd ../
+
+      - name: Upload .zip package artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: CheckInstall
+          path: archive/*
+          if-no-files-found: error

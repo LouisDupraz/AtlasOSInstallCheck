@@ -7,5 +7,10 @@ whoami /user | find /i "S-1-5-18" > nul 2>&1 || (
 
 SET mypath=%~dp0
 cd %mypath%
-powershell.exe -Command "& {python src/main.py %*}"
+IF EXIST CheckInstall.exe (
+    powershell.exe -Command "& .\CheckInstall.exe %*"
+) ELSE (
+    powershell.exe -Command "& python .\src\main.py %*"
+)
+
 pause
