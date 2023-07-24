@@ -44,10 +44,10 @@ jobs:
           cp README.md archive/
           cp RunAsTI.cmd archive/
           cp LICENSE archive/
-          cd archive/
-          7z a -tzip CheckInstall.zip *
-          mv CheckInstall.zip ../
-          cd ../
+#          cd archive/
+#          7z a -tzip CheckInstall.zip *
+#          mv CheckInstall.zip ../
+#          cd ../
 
       - name: Upload .zip package artifact
         uses: actions/upload-artifact@v3
