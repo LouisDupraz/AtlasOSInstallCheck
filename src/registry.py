@@ -1,4 +1,5 @@
 import winreg as reg
+from sys import stdin
 
 # Note : the following values and keys are ignored because they are recreated by the system at each reboot
 values_exeptions= {
@@ -14,6 +15,11 @@ keys_exceptions = {
     r"HKCU\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags",
     r"HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options"
 }
+
+
+def input(prompt=''):
+    print(prompt, end='', flush=True)
+    return stdin.readline().strip()
 
 
 def delete_key_with_sub_keys(key):

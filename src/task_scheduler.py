@@ -1,5 +1,6 @@
 import win32com.client
 from subprocess import run, DEVNULL
+from sys import stdin
 
 
 tasks_folder_exceptions = {
@@ -9,6 +10,11 @@ tasks_folder_exceptions = {
 task_exception = {
     r"\Microsoft\Windows\WindowsUpdate\Scheduled Start"
 }
+
+
+def input(prompt=''):
+    print(prompt, end='', flush=True)
+    return stdin.readline().strip()
 
 
 def checkTasksFolderExistsAndDelete(path, skip_prompts):

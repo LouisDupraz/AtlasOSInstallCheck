@@ -2,11 +2,17 @@ from pathlib import Path
 from shutil import rmtree
 from os import chmod, path, walk
 import psutil
+from sys import stdin
 
 # Note : the following files and folders are ignored because they are recreated by the system at each reboot
 files_exeptions = {
     r"C:\Windows\SoftwareDistribution"
 }
+
+
+def input(prompt=''):
+    print(prompt, end='', flush=True)
+    return stdin.readline().strip()
 
 
 def killFileProcess(filename):
