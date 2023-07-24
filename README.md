@@ -1,16 +1,17 @@
 # AtlasOSInstallCheck
 ## A tool to check the integrity of the current Atlas OS installation
 
-# Usage:
+# How to get the script
 
 ## Cloning the repo (or download as ZIP)
 
-Download the requirements with `pip install -r requirements.txt`
+Download the requirements with `pip install -r requirements.txt`, then proceed to the usage section (Python and pip are obviously required)
 
 ## Downloading a build from the releases page or the Github Actions
 
 Extract and run.
 
+# Usage:
 
 Run the script with `run.cmd <path to Atlas Playbook (.apbx or extracted directory)> [-r] [-f] [-s] [-t] [-y]`
 
