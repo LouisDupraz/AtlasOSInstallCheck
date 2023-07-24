@@ -124,10 +124,10 @@ def main():
     try:
         config_dir_content = listdir(config_path)
     except FileNotFoundError:
-        print("Could not find the configuration directory. Please make sure you are pointing to the correct directory")
+        print("Could not find the configuration directory. Please make sure you are pointing to the playbook")
         exit(1)
     if "custom.yml" not in config_dir_content:
-        print("Could not find custom.yml in the configuration directory. Please make sure you are pointing to the correct directory")
+        print("Could not find custom.yml in the configuration directory. Please make sure you are pointing to the playbook")
         exit(1)
     config_data = readYamlFile(config_path + "custom.yml")
     yml_files_list = config_data['features']
