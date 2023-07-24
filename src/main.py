@@ -78,7 +78,11 @@ def parse_args():
             patharg = arg
     if patharg is None:
         print(help_msg)
-        exit(1)
+        second_try_path = input("Please enter the path to the playbook (you can drag and drop it) :\n> ")
+        if second_try_path == "":
+            print("No path entered. Exiting...")
+            exit(1)
+        patharg = second_try_path
     if True not in checks_state.values():
         for k in checks_state.keys():
             checks_state[k] = True
@@ -117,21 +121,7 @@ def main():
         config_dir_content = listdir(config_path)
     except FileNotFoundError:
         print("Could not find the configuration directory. Please make sure you are pointing to the correct directory")
-        second_try_path = input("Please enter the path to the playbook (you can drag and drop it) :\n> ")
-        if second_try_path == "":
-            print("No path entered. Exiting...")
-            exit(1)
-        if second_try_path.endswith(".apbx"):
-            extract_apbx(second_try_path)
-            param = r'.\playbook'
-        else:
-            param = second_try_path
-        config_path = param + "\\Configuration\\"
-        try:
-            config_dir_content = listdir(config_path)
-        except FileNotFoundError:
-            print("Could not find the configuration directory. Exiting...")
-            exit(1)
+        exit(1)
     if "custom.yml" not in config_dir_content:
         print("Could not find custom.yml in the configuration directory. Please make sure you are pointing to the correct directory")
         exit(1)
