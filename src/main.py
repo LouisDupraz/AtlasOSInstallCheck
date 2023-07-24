@@ -87,10 +87,10 @@ def parse_args():
 
 def extract_apbx(path):
     if Path(r'.\playbook.7z').exists():
-        run(r'rm -rf .\playbook.7z', check=True, shell=True, stdout=DEVNULL)
+        run(rf'del .\playbook.7z', check=True, shell=True, stdout=DEVNULL)
     run(rf'copy {path} .\playbook.7z', check=True, shell=True, stdout=DEVNULL)
     if Path(r'.\playbook').exists():
-        run(r'rm -rf .\playbook', check=True, shell=True, stdout=DEVNULL)
+        run(rf'rmdir .\playbook\ /S /Q', check=True, shell=True, stdout=DEVNULL)
     if not is_zipfile('playbook.7z'):
         with SevenZipFile('playbook.7z', mode='r', password='malte') as file:
             run(r'mkdir .\playbook', check=True, shell=True, stdout=DEVNULL)
