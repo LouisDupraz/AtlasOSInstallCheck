@@ -21,11 +21,23 @@ jobs:
         run: |
           pip install pyinstaller
 
-      - name: Package to exe
-        id: package
+      - name: Install Wine
         run: |
-          files=$(ls src/*.py)
-          pyinstaller --onefile --noconsole $files
+          sudo dpkg --add-architecture i386 
+          wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add -
+          sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main' 
+          sudo apt update
+          sudo apt install --install-recommends winehq-stable
+
+      - name: Install Windows Python & PyInstaller
+        run: |
+          wget https://www.python.org/ftp/python/3.7.4/python-3.7.4.exe
+          wine python-3.7.4.exe /quiet InstallAllUsers=1 PrependPath=1
+          wine python -m pip install pyinstaller
+
+      - name: Package to exe
+        run: |
+          wine pyinstaller --onefile $(ls src/*.py)
           printf "\n\n\n$(ls -lR .)\n\n\n"
           mv dist/main.exe CheckInstall.exe
           rm -rf build dist main.spec
