@@ -29,6 +29,7 @@ jobs:
 
       - name: Package to exe
         id: package
+        shell: bash
         run: |
           files=$(ls src/*.py)
           pyinstaller --onefile --noconsole $files
