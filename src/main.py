@@ -55,7 +55,11 @@ def parse_args():
     args = argv[1:]
     if len(args) < 1 or ('-h' in args or '--help' in args):
         print(help_msg)
-        exit(1)
+        second_try_path = input("Please enter the path to the playbook (you can drag and drop it) :\n> ")
+        if second_try_path == "":
+            print("No path entered. Exiting...")
+            exit(1)
+        args.append(second_try_path)
     patharg = None
     for arg in args:
         if arg.startswith("-"):
