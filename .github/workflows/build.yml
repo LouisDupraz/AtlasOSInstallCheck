@@ -30,9 +30,21 @@ jobs:
           mv dist/main.exe CheckInstall.exe
           rm -rf build dist main.spec
 
-      - name: Upload .exe artifact
+      - name: Package executables
+        run: |
+          mkdir -p archive
+          cp run.cmd archive/
+          cp CheckInstall.exe archive/
+          cp README.md archive/
+          cp RunAsTI.cmd archive/
+          cp LICENSE archive/
+          cd archive/
+          zip CheckInstall.zip *
+          mv CheckInstall.zip ../
+
+      - name: Upload .zip package artifact
         uses: actions/upload-artifact@v3
         with:
           name: CheckInstall
-          path: CheckInstall.exe
+          path: CheckInstall.zip
           if-no-files-found: error
