@@ -9,6 +9,7 @@ from subprocess import run, DEVNULL
 from py7zr import SevenZipFile
 from py7zr.exceptions import UnsupportedCompressionMethodError
 from zipfile import ZipFile, is_zipfile
+from pathlib import Path
 
 
 checks_state = {"registry": False, "files": False, "services": False, "schdtasks": False}
@@ -85,7 +86,11 @@ def parse_args():
 
 
 def extract_apbx(path):
+    if Path(r'.\playbook.7z').exists():
+        run(r'rm -rf .\playbook.7z', check=True, shell=True, stdout=DEVNULL)
     run(rf'copy {path} .\playbook.7z', check=True, shell=True, stdout=DEVNULL)
+    if Path(r'.\playbook').exists():
+        run(r'rm -rf .\playbook', check=True, shell=True, stdout=DEVNULL)
     if not is_zipfile('playbook.7z'):
         with SevenZipFile('playbook.7z', mode='r', password='malte') as file:
             run(r'mkdir .\playbook', check=True, shell=True, stdout=DEVNULL)
