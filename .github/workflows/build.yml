@@ -1,0 +1,38 @@
+name: Package script to exe
+
+on:
+  push:
+    branches-ignore:
+      - 'ga-ignore-*'
+  pull_request:
+    branches-ignore:
+      - 'ga-ignore-*'
+
+
+jobs:
+  package_to_exe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install requirements
+        id: requirements
+        run: |
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Package to exe
+        id: package
+        run: |
+          files=$(ls src/*.py)
+          pyinstaller --onefile --noconsole $files
+          mv dist/main.exe CheckInstall.exe
+          rm -rf build dist main.spec
+
+      - name: Upload .exe artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: CheckInstall
+          path: CheckInstall.exe
+          if-no-files-found: error
