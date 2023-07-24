@@ -13,7 +13,7 @@ from pathlib import Path
 
 
 checks_state = {"registry": False, "files": False, "services": False, "schdtasks": False}
-help_msg = """Usage:run.cmd <path to Atlas Playbook (.apbx or extracted directory)> [-r] [-f] [-s] [-t] [-y]
+help_msg = """Usage: run.cmd <path to Atlas Playbook (.apbx or extracted directory)> [-r] [-f] [-s] [-t] [-y]
 To get the Atlas Playbook Directory, download the Atlas Playbook https://atlasos.net/ and extract it (password: malte)"""
 skip_prompts = False
 
@@ -117,7 +117,21 @@ def main():
         config_dir_content = listdir(config_path)
     except FileNotFoundError:
         print("Could not find the configuration directory. Please make sure you are pointing to the correct directory")
-        exit(1)
+        second_try_path = input("Please enter the path to the playbook (you can drag and drop it) :\n> ")
+        if second_try_path == "":
+            print("No path entered. Exiting...")
+            exit(1)
+        if second_try_path.endswith(".apbx"):
+            extract_apbx(second_try_path)
+            param = r'.\playbook'
+        else:
+            param = second_try_path
+        config_path = param + "\\Configuration\\"
+        try:
+            config_dir_content = listdir(config_path)
+        except FileNotFoundError:
+            print("Could not find the configuration directory. Exiting...")
+            exit(1)
     if "custom.yml" not in config_dir_content:
         print("Could not find custom.yml in the configuration directory. Please make sure you are pointing to the correct directory")
         exit(1)
