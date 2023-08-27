@@ -30,18 +30,11 @@ Note: this tool is still under developpement so bugs may still be present. If yo
 
 ## WARNING : This is not meant to apply the playbook ! Many essential steps are skipped ! Please use the standard means of installation !
 
-# Planned additionnal features
-- [x] Add compatibilty for AtlasOS 0.3.0
-- [x] Check task scheduler entries
-- [x] Check services
-- [x] Add Trusted Installer / SYSTEM privilege escalation to avoid any permission errors
-- [x] Kill related programs when deleting files
-- [x] Add CLI arguments to only run specific checks
+# Support
+This tool is meant to be used with the Atlas OS playbook, but should work with any other AME Wizard compatible playbooks. Use it at your own risk
 
 ### To request additional features, or report bugs, please open an issue on the GitHub repository
 
-# Support
-This tool is meant to be used with the Atlas OS playbook, but should work with any other AME Wizard compatible playbooks. Use it at your own risk
 
 # Credit
 Huge thanks to the AME and Atlas OS team for their amazing work to unbloat Windows and make it more private.
